@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import glob
 
+from qstats.job import Job
 
 def sumSU(jobs):
   suCharged = 0.
@@ -91,7 +92,3 @@ def getSUCharged(queue,runtime,cpus,qos,gpus=0.):
     return runtime*qosFac*8.0
   else:
     return 0.0
-
-
-if __name__ == "__main__":
-  raise NotImplementedError

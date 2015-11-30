@@ -122,8 +122,3 @@ class Job(object):
       return other + self.cputime
     except:
       return self
-
-
-
-if __name__ == "__main__":
-  raise NotImplementedError
