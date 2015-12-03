@@ -1,16 +1,21 @@
 #!/usr/bin/env python
 
 from qstats.utils import getJobs, Collect
-import sys
+import argparse
+
+def cli():
+    parser=argparse.ArgumentParser(description='Moab Queue usage report')
+
+    parser.add_argument('stats_dir',help='Directory of Moab Event Stats')
+    parser.add_argument('-y','--year',action='store')
+    parser.add_argument('-q','--by-queue',action='store_true',help='Show each queue')
+
+    return parser.parse_args()
 
 def main(args=None):
 
-    if args is None:
-        stats_dir = sys.argv[1]
-        year=sys.argv[2]
-
-    theJobs = getJobs([stats_dir+'/*'+year])
-    print "%%%%%%%% Report for " + year + " %%%%%%%%"
+    theJobs = getJobs([args.stats_dir+'/*'+args.year])
+    print "%%%%%%%% Report for " + args.year + " %%%%%%%%"
     print
 
 
@@ -30,22 +35,24 @@ def main(args=None):
 
 
 
-    queues = Collect(theJobs,'queue','JOBEND')
-    for queue in sorted(queues.keys()):
-      groups = Collect(queues[queue],'group')
-      print "--- " + queue.upper()
+    if(args.by_queue):
+        queues = Collect(theJobs,'queue','JOBEND')
+        for queue in sorted(queues.keys()):
+          groups = Collect(queues[queue],'group')
+          print "--- " + queue.upper()
 
-      jobs=[(group,len(groups[group]),sum(groups[group])) for group in groups.keys()]
-      jobs.sort(key=lambda tup: tup[2])
-      njobs=0
-      ncpuh=0
-      for job in jobs:
-        print "%18s: %7d jobs; %12.2f cpu-hours" % job
-        njobs=njobs+job[1]
-        ncpuh=ncpuh+job[2]
-      print "--------------------------------------------------------"
-      print "%10s  %5d jobs; %10.2f cpu-hours" % ("",njobs,ncpuh)
-      print
+          jobs=[(group,len(groups[group]),sum(groups[group])) for group in groups.keys()]
+          jobs.sort(key=lambda tup: tup[2])
+          njobs=0
+          ncpuh=0
+          for job in jobs:
+            print "%18s: %7d jobs; %12.2f cpu-hours" % job
+            njobs=njobs+job[1]
+            ncpuh=ncpuh+job[2]
+          print "--------------------------------------------------------"
+          print "%10s  %5d jobs; %10.2f cpu-hours" % ("",njobs,ncpuh)
+          print
 
 if __name__ == '__main__':
-    main()
+    args=cli()
+    main(args)
