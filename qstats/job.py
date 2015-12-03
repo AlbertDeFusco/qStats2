@@ -7,9 +7,6 @@ class Job(object):
 # Rename requests that routed queues be renamed to the base routing queue
   def __init__(self,stats,Rename=False):
     try:
-      # the date of the event
-      #self.epoch=int(stats[1].split(":")[0])
-      #self.day = time.strftime("%Y-%m-%d", time.gmtime(self.submit))
       if stats[4] == 'JOBCANCEL':
         raise TypeError
       # epoch times; be careful! I have found cases where
@@ -68,22 +65,14 @@ class Job(object):
       self.submit=int(stats[12])
       self.eligible=int(stats[55])
 
-      #if (self.start == 0):
-      #  self.cputime=float(stats[32])
-      #else:
       self.cputime=(self.end - self.start) * self.cpus/60./60.
 
       self.runtime=self.cputime/self.cpus
       self.queued=self.eligible/60./60.
 
-      #if (self.start == 0 or self.submit == 0):
-      #  self.wait=0
-      #  self.blocked=0
-      #else:
       self.wait=(self.start - self.submit) /60./60.
       self.blocked=(self.start - self.submit - self.eligible) / 60./60.
 
-      #if(self.blocked<0.0):
       self.blocked = 0
 
       self.submitTime = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(self.submit))

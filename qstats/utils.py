@@ -30,29 +30,29 @@ def avgNCPU(jobs):
 # key can be any of the above attributes and must be provided
 # as a string, like 'queue', 'user', 'reqwall'
 # Stat can be 'JOBEND','JOBSTART','JOBCANCEL' or just ignored.
-def Collect(myStats,key,stat=None):
-  Collected = {}
+def collect(myStats,key,stat=None):
+  collected = {}
   for job in myStats:
     if stat != None:
       try:
         if job.status == stat:
           value = job.__dict__[key]
-          if value in Collected:
-            Collected[value].append(job)
+          if value in collected:
+            collected[value].append(job)
           else:
-            Collected[value] = [job]
+            collected[value] = [job]
       except:
         pass
     else:
       try:
         value = job.__dict__[key]
-        if value in Collected:
-          Collected[value].append(job)
+        if value in collected:
+          collected[value].append(job)
         else:
-          Collected[value] = [job]
+          collected[value] = [job]
       except:
         pass
-  return Collected
+  return collected
 
 
 # Read the event logs

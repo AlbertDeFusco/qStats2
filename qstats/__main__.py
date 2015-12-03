@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from qstats.utils import getJobs, Collect
+from qstats.utils import getJobs, collect
 import argparse
 
 def cli():
@@ -20,7 +20,7 @@ def main(args=None):
 
 
     print "--- Summary"
-    groups = Collect(theJobs,'group','JOBEND')
+    groups = collect(theJobs,'group','JOBEND')
     jobs=[(group,len(groups[group]),sum(groups[group])) for group in groups.keys()]
     jobs.sort(key=lambda tup: tup[2])
     njobs=0
@@ -36,9 +36,9 @@ def main(args=None):
 
 
     if(args.by_queue):
-        queues = Collect(theJobs,'queue','JOBEND')
+        queues = collect(theJobs,'queue','JOBEND')
         for queue in sorted(queues.keys()):
-          groups = Collect(queues[queue],'group')
+          groups = collect(queues[queue],'group')
           print "--- " + queue.upper()
 
           jobs=[(group,len(groups[group]),sum(groups[group])) for group in groups.keys()]
