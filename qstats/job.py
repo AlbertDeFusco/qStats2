@@ -31,17 +31,17 @@ class Job(object):
       self.queue=stats[11].replace("[","").replace("]","").replace(":1","")
       if(Rename):
         if(self.queue == 'idist' or self.queue=='ndist'):
-          self.queue = 'distributed'
+            self.queue = 'distributed'
         if(self.queue == 'idist_small' or self.queue == 'ndist_small'):
-          self.queue = 'dist_small'
+            self.queue = 'dist_small'
         if(self.queue == 'idist_big' or self.queue == 'ndist_big'):
-          self.queue = 'dist_big'
+            self.queue = 'dist_big'
         if(self.queue == 'ishared_large' or self.queue == 'nshared_large'):
-          self.queue = 'shared_large'
+            self.queue = 'shared_large'
         if(self.queue == 'ishared' or self.queue == 'nshared'):
-          self.queue = 'shared'
+            self.queue = 'shared'
         if(self.queue == 'gpu_long' or self.queue == 'gpu_short'):
-	  self.queue = 'gpu'
+            self.queue = 'gpu'
 
       self.memory=stats[37]
       self.partition=stats[33]
