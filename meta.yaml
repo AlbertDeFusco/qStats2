@@ -1,0 +1,12 @@
+package:
+  name: qStats
+  version: "0.1"
+
+requirements:
+  build:
+    - python
+    - setuptools
+  run:
+    - python
+
+
