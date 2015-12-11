@@ -2,6 +2,14 @@ package:
   name: qstats
   version: "0.1"
 
+source:
+  path: ./
+
+build:
+  script: python setup.py install
+  entry_points:
+    - qstats = qstats.__main__:main
+
 requirements:
   build:
     - python
