@@ -1,0 +1,4 @@
+name: qstats
+dependencies:
+ - python=3
+ - setuptools
