@@ -3,16 +3,21 @@
 from qstats.utils import getJobs, collect
 import argparse
 
-def cli():
+def cli(parse_this_str=None):
     parser=argparse.ArgumentParser(description='Moab Queue usage report')
 
     parser.add_argument('stats_dir',help='Directory of Moab Event Stats')
-    parser.add_argument('-y','--year',action='store')
+    parser.add_argument('-y','--year',action='store', required=True)
     parser.add_argument('-q','--by-queue',action='store_true',help='Show each queue')
+
+    if parse_this_str is not None:
+        # For testing sometimes it is helpful to have it parse
+        # a string rather than sys.argv
+        return parser.parse_args(parse_this_str)
 
     return parser.parse_args()
 
-def main(args=None):
+def generate_report(args=None):
 
     theJobs = getJobs([args.stats_dir+'/*'+args.year])
     print("%%%%%%%% Report for " + args.year + " %%%%%%%%")
@@ -53,6 +58,10 @@ def main(args=None):
           print("%10s  %5d jobs; %10.2f cpu-hours" % ("",njobs,ncpuh))
           print()
 
+def main(parse_this_str=None):
+    args=cli(parse_this_str=parse_this_str)
+    generate_report(args)
+
+
 if __name__ == '__main__':
-    args=cli()
-    main(args)
+    main()
